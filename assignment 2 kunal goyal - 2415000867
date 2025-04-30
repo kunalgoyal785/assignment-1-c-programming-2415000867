@@ -1,0 +1,100 @@
+#include "stringtoolkit.h"
+#include <ctype.h>
+#include <string.h>
+
+void to_uppercase(char str[]) {
+    for (int i = 0; str[i]; i++)
+        str[i] = toupper(str[i]);
+}
+
+void to_lowercase(char str[]) {
+    for (int i = 0; str[i]; i++)
+        str[i] = tolower(str[i]);
+}
+
+int count_vowels(const char str[]) {
+    int count = 0;
+    for (int i = 0; str[i]; i++) {
+        char c = tolower(str[i]);
+        if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u')
+            count++;
+    }
+    return count;
+}
+
+void reverse_string(char str[]) {
+    int len = strlen(str);
+    for (int i = 0; i < len / 2; i++) {
+        char tmp = str[i];
+        str[i] = str[len - 1 - i];
+        str[len - 1 - i] = tmp;
+    }
+}
+
+void sort_strings(char arr[][100], int n) {
+    char temp[100];
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (strcmp(arr[i], arr[j]) > 0) {
+                strcpy(temp, arr[i]);
+                strcpy(arr[i], arr[j]);
+                strcpy(arr[j], temp);
+            }
+        }
+    }
+}
+
+void reverse_words(char str[]) {
+    char words[100][100];
+    int i = 0, j = 0, k = 0;
+    while (str[i]) {
+        if (str[i] == ' ') {
+            words[k][j] = '\0';
+            k++;
+            j = 0;
+        } else {
+            words[k][j++] = str[i];
+        }
+        i++;
+    }
+    words[k][j] = '\0';
+
+    str[0] = '\0';
+    for (int t = k; t >= 0; t--) {
+        strcat(str, words[t]);
+        if (t > 0)
+            strcat(str, " ");
+    }
+}
+#include <stdio.h>
+#include "stringtoolkit.h"
+
+int main() {
+    char str1[100] = "Hello World";
+    char str2[100] = "Example STRING";
+    char str3[100] = "openai is cool";
+    char stringArray[5][100] = {"Banana", "apple", "Cherry", "date", "Elderberry"};
+
+    to_uppercase(str1);
+    printf("Uppercase: %s\n", str1);
+
+    to_lowercase(str2);
+    printf("Lowercase: %s\n", str2);
+
+    printf("Vowel count in \"%s\": %d\n", str3, count_vowels(str3));
+
+    reverse_string(str3);
+    printf("Reversed string: %s\n", str3);
+
+    sort_strings(stringArray, 5);
+    printf("Sorted strings:\n");
+    for (int i = 0; i < 5; i++) {
+        printf("%s\n", stringArray[i]);
+    }
+
+    char str4[100] = "AI is the future";
+    reverse_words(str4);
+    printf("Reversed words: %s\n", str4);
+
+    return 0;
+}
